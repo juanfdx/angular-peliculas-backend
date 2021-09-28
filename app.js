@@ -31,7 +31,7 @@ app.listen(PORT, () => {
 
   //CONNECT TO DB
   //Force true: DROP TABLES
-  sequelize.sync({ force: true }).then( () => {
+  sequelize.sync({ force: false }).then( () => {
     console.log('DB Online.');
 
   }).catch(error => {
