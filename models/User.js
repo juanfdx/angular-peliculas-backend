@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const { sequelize } = require('../database/config');
 
 
-//modelo de user y validaciones de los campos
+//modelo de User y validaciones de los campos
 class User extends Model {}
 
 User.init({
@@ -15,6 +15,10 @@ User.init({
       notNull: {
         msg: 'Debe escribir un nombre.'
       },
+      notEmpty: {
+        args: true,
+        msg: 'Debe escribir un nombre.'
+      },
       is: {
         args: /^[a-zA-Z ]+$/i,
         msg: 'EL nombre solo puede contener letras.'
@@ -22,7 +26,7 @@ User.init({
       len: {
         args: [3, 30],
         msg: 'El nombre debe contener entre 3 y 255 caracteres.'
-      }
+      },
 
     }
   },

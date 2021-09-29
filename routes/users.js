@@ -4,6 +4,7 @@ const { getUsers, createUser, getUser, updateUser, deleteUser } = require('../co
 
 const router = Router();
 
+
 //ALL USERS: /api/users
 router.get('/', getUsers );
 

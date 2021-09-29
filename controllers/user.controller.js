@@ -30,15 +30,17 @@ const getUsers = (req, res) => {
 //CREAR UN USUARIO
 const createUser = (req, res) => {
   
+  const { name, lastName, email, password } = req.body;
+
   //Verificamos si el email ya existe
   User.findOne({
     where: {
-      email: req.body.email
+      email: email
     }
 
-  }).then( email => {
+  }).then( result => {
 
-    if (email) {
+    if (result) {
 
       return res.status(400).json({
         ok: false,
@@ -49,7 +51,7 @@ const createUser = (req, res) => {
 
       //encriptamos el password
       const salt = bcrypt.genSaltSync();
-      passEncrypted = bcrypt.hashSync(req.body.password, salt);
+      passEncrypted = bcrypt.hashSync(password, salt);
 
       //Creamos el usuario
       User.create({
@@ -84,7 +86,7 @@ const createUser = (req, res) => {
 const getUser = (req, res) => {
 
   User.findByPk(
-    req.params.id , 
+    req.params.id, 
     {attributes: ['id', 'name', 'lastName', 'email']}
 
   ).then( user => {
@@ -143,13 +145,12 @@ const updateUser = (req, res) => {
 
     }
 
-    // res.json(result);
 
   }).catch( err => {
 
     res.json({
       ok: false,
-      msg: err
+      msg: err.errors[0].message
     });
 
   })
