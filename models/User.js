@@ -68,16 +68,6 @@ User.init({
         msg: 'El password no puede ser Nulo.'
       },
 
-      isAlphanumeric: {
-        args: true,
-        msg: 'Solo se permiten letras y numeros.'
-      },
-
-      len: {
-        args: [6, 12],
-        msg: 'El password debe ser entre 6 y 12 caracteres.'
-      },
-
     }
   },
 

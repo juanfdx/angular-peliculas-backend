@@ -1,5 +1,5 @@
 const User = require('../models/User');
-
+const bcrypt = require('bcryptjs');
 
 
 //OBTENER TODOS LOS USUARIOS
@@ -28,7 +28,7 @@ const getUsers = (req, res) => {
 }
 
 //CREAR UN USUARIO
-const createUser = async (req, res) => {
+const createUser = (req, res) => {
   
   //Verificamos si el email ya existe
   User.findOne({
@@ -47,12 +47,16 @@ const createUser = async (req, res) => {
 
     } else {
 
+      //encriptamos el password
+      const salt = bcrypt.genSaltSync();
+      passEncrypted = bcrypt.hashSync(req.body.password, salt);
+
       //Creamos el usuario
       User.create({
         name: req.body.name,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: req.body.password
+        password: passEncrypted
 
       }).then( user => {
 
