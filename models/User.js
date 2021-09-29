@@ -15,12 +15,12 @@ User.init({
       notNull: {
         msg: 'Debe escribir un nombre.'
       },
-      isAlpha: {
-        args: true,
+      is: {
+        args: /^[a-zA-Z ]+$/i,
         msg: 'EL nombre solo puede contener letras.'
       },
       len: {
-        args: [3, 255],
+        args: [3, 30],
         msg: 'El nombre debe contener entre 3 y 255 caracteres.'
       }
 
@@ -35,12 +35,12 @@ User.init({
       notNull: {
         msg: 'Debe escribir un apellido.'
       },
-      isAlpha: {
-        args: true,
+      is: {
+        args: /^[a-zA-Z ]+$/i,
         msg: 'EL apellido solo puede contener letras.'
       },
       len: {
-        args: [3, 255],
+        args: [3, 50],
         msg: 'El apellido debe contener entre 3 y 255 caracteres.'
       }
 
@@ -50,10 +50,12 @@ User.init({
   email: {
     type: DataTypes.STRING,
     validate: {
-      isEmail: {
-        args: true,
+
+      is: {
+        args: "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$",
         msg: 'Debe ser un email valido.'
-      }
+      },
+
     }
   },
 

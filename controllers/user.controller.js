@@ -5,7 +5,7 @@ const User = require('../models/User');
 //OBTENER TODOS LOS USUARIOS
 const getUsers = (req, res) => {
 
-  User.findAll({
+  User.findAndCountAll({
 
     attributes: ['id', 'name', 'lastName', 'email']
 
@@ -21,7 +21,6 @@ const getUsers = (req, res) => {
     res.json({
       ok: false,
       msg: err
-      // msg: err.errors[0].message
     });
 
   })
@@ -29,28 +28,49 @@ const getUsers = (req, res) => {
 }
 
 //CREAR UN USUARIO
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
+  
+  //Verificamos si el email ya existe
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
 
-  User.create({
-    name: req.body.name,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password
+  }).then( email => {
 
-  }).then( user => {
+    if (email) {
 
-    res.json({
-      ok: true,
-      user: user
-    })
+      return res.status(400).json({
+        ok: false,
+        msg: 'El email ya esta registrado.'
+      });
 
-  }).catch( err => {
+    } else {
 
-    res.json({
-      ok: false,
-      msg: err
-      // msg: err.errors[0].message
-    });
+      //Creamos el usuario
+      User.create({
+        name: req.body.name,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password
+
+      }).then( user => {
+
+        res.json({
+          ok: true,
+          user: user
+        })
+
+      }).catch( err => {
+
+        res.json({
+          ok: false,
+          msg: err.errors[0].message
+        });
+
+      })
+
+    }
 
   })
 
@@ -84,7 +104,6 @@ const getUser = (req, res) => {
     res.json({
       ok: false,
       msg: err
-      // msg: err.errors[0].message
     });
 
   })
@@ -127,7 +146,6 @@ const updateUser = (req, res) => {
     res.json({
       ok: false,
       msg: err
-      // msg: err.errors[0].message
     });
 
   })
@@ -163,7 +181,6 @@ const deleteUser = (req, res) => {
     res.json({
       ok: false,
       msg: err
-      // msg: err.errors[0].message
     });
 
   })
