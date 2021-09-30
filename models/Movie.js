@@ -51,8 +51,13 @@ Movie.init({
   image: {
     type: DataTypes.STRING,
     defaultValue: 'default.jpg'
+  },
 
+  score: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0
   }
+
 
 
 }, { sequelize , modelName: 'movie'})

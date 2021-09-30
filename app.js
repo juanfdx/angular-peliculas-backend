@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./database/config');
+const associations = require('./database/associations');
+
 
 
 //1 EXPRESS SERVER
@@ -24,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/login', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/movies', require('./routes/movies'));
+app.use('/api/comments', require('./routes/comments'));
 
 
 

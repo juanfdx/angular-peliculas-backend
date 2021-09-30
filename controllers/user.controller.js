@@ -20,7 +20,7 @@ const getUsers = (req, res) => {
 
     res.json({
       ok: false,
-      msg: err
+      msg: 'Error inesperado...'
     });
 
   })
@@ -165,9 +165,10 @@ const deleteUser = (req, res) => {
       id: req.params.id
     }
 
+  //result devuelve un numero que representa la cantidad de items borrados
   }).then( result => {
 
-    if (result === 1) {
+    if (result >= 1) {
       res.json({
         ok: true,
         msg: 'usuario borrado con exito.'

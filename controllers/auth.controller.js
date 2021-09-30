@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 
-//CREAR UN USUARIO
+//VERIFICAR CUENTA DE USUARIO
 const authUser = (req, res) => {
 
   const { email, password } = req.body;
