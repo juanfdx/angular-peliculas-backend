@@ -79,7 +79,15 @@ User.init({
   role: {
     type: DataTypes.INTEGER,
     defaultValue: 0
-  }
+  },
+
+  image: {
+    type: DataTypes.STRING,
+    set(value) {
+      value ? this.setDataValue('image', value) : this.setDataValue('image', 'no-image.jpg');
+      
+    }
+  },
 
 
 }, { sequelize , modelName: 'user'})

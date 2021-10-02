@@ -46,6 +46,13 @@ const authUser = (req, res) => {
 
     }
 
+  }).catch( err => {
+
+    res.json({
+      ok: false,
+      msg: 'Error inesperado.'
+    });
+
   })
 
 

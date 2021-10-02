@@ -28,7 +28,7 @@ const getAllMovies = (req, res) => {
 //CREAR UNA PELICULA
 const createTheMovie = (req, res) => {
 
-  const { title, year, image } = req.body;
+  const { title, year } = req.body;
 
   //Verificamos si la pelicula ya existe
   Movie.findOne({
@@ -50,7 +50,7 @@ const createTheMovie = (req, res) => {
       Movie.create({
         title: title,
         year: year,
-        image: image
+        image:'no-image.jpg'
       
       }).then( movie => {
       
@@ -63,14 +63,21 @@ const createTheMovie = (req, res) => {
       
         res.json({
           ok: false,
-          msg: err.errors[0].message
+          msg: 'Error inesperado...'
         });
       
       })
 
     }
 
-  })  
+  }).catch( err => {
+      
+    res.json({
+      ok: false,
+      msg: 'Error inesperado...'
+    });
+  
+  }) 
 
 }
 
@@ -223,8 +230,9 @@ const getMovieAndComments = (req, res) => {
       })
 
     } else {
-  
-      movie.getComments({ attributes: ['comment'] }).then( comments => {
+
+      //metodo magico por la asociacion de tablas
+      movie.getComments({ attributes: ['comment', 'userId'] }).then( comments => {
 
         //creamos un array solo con los comentarios
         const onlyComments = comments.map( obj => obj = obj.comment);
@@ -241,6 +249,13 @@ const getMovieAndComments = (req, res) => {
         
         res.json(commentedMovie);
 
+      }).catch( err => {
+
+        res.json({
+          ok: false,
+          msg: 'Error inesperado...'
+        });
+    
       })
 
     }
@@ -365,6 +380,13 @@ const rateTheMovie = (req, res) => {
     })
 
   
+  }).catch( err => {
+
+    res.json({
+      ok: false,
+      msg: 'No se encontró pelicula.'
+    });
+
   })
 
 

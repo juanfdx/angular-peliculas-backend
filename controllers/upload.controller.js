@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const Movie = require('../models/Movie');
+const User = require('../models/User');
+
 
 //borrar imagen
 const deleteImage = (path) => {
@@ -133,7 +135,58 @@ const fileUpload = (req, res) => {
 
       case 'users':   
 
-      //A FUTURO
+      User.findByPk(
+        id,   
+    
+      ).then( user => {
+
+        //si el usuario tiene una imagen previa, entonces la borramos de la carpeta
+        const oldPath = `./uploads/users/${ user.image }`;
+        deleteImage(oldPath);
+
+        //actualizamos el usuario
+        User.update({
+          image: fileName
+      
+        }, {
+          where: {
+            id: id
+          }
+      
+        }).then( result => {
+
+          if (result[0] === 1) {
+            res.json({
+              ok: true,
+              msg: 'Imagen actualizada.'
+            })
+      
+          } else {
+            res.json({
+              ok: false,
+              msg: 'no se pudo actualizar la imagen.'
+            })
+      
+          }
+
+        }).catch( err => {
+
+          res.json({
+            ok: false,
+            msg: 'Error inesperado.'
+          });
+      
+        })
+ 
+
+      }).catch( err => {
+
+        res.json({
+          ok: false,
+          msg: 'Error inesperado.'
+        });
+    
+      })
       
       break;
     

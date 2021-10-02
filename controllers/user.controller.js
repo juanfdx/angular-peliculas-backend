@@ -46,6 +46,16 @@ const createUser = (req, res) => {
 
     } else {
 
+      //No se admite cadena vacia  
+      if ((/^$|\s+/.test(password))) {
+
+        return res.json({
+          ok: false,
+          msg: 'Debe escribir un password'
+        });
+
+      }
+
       //encriptamos el password
       const salt = bcrypt.genSaltSync();
       passEncrypted = bcrypt.hashSync(password, salt);
@@ -55,7 +65,8 @@ const createUser = (req, res) => {
         name: req.body.name,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: passEncrypted
+        password: passEncrypted,
+        image: 'no-image.jpg'
 
       }).then( user => {
 
@@ -68,12 +79,19 @@ const createUser = (req, res) => {
 
         res.json({
           ok: false,
-          msg: err.errors[0].message
+          msg: 'Error de validacion.'
         });
 
       })
 
     }
+
+  }).catch( err => {
+
+    res.json({
+      ok: false,
+      msg: 'Error inesperado.'
+    });
 
   })
 
@@ -144,7 +162,7 @@ const updateUser = (req, res) => {
 
     res.json({
       ok: false,
-      msg: err.errors[0].message
+      msg: 'Error de validacion.'
     });
 
   })

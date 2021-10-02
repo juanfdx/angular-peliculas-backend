@@ -47,7 +47,7 @@ Movie.init({
 
     }  
   },
-
+  
   image: {
     type: DataTypes.STRING,
     set(value) {

@@ -8,3 +8,9 @@ Movie.hasMany(Comment, {
   onDelete: 'CASCADE'
 });
 Comment.belongsTo(Movie);
+
+
+User.hasMany(Comment, {
+  onDelete: 'CASCADE'
+});
+Comment.belongsTo(User);
