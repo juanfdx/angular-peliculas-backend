@@ -50,13 +50,26 @@ Movie.init({
 
   image: {
     type: DataTypes.STRING,
-    defaultValue: 'default.jpg'
+    set(value) {
+      value ? this.setDataValue('image', value) : this.setDataValue('image', 'no-image.jpg');
+      
+    }
   },
 
   score: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+
+  ratings: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+
+  average: {
     type: DataTypes.FLOAT,
     defaultValue: 0
-  }
+  },
 
 
 

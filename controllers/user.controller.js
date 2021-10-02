@@ -11,10 +11,7 @@ const getUsers = (req, res) => {
 
   }).then( users => {
 
-    res.json({
-      ok: true,
-      users: users
-    })
+    res.json(users)
 
   }).catch( err => {
 
@@ -98,10 +95,7 @@ const getUser = (req, res) => {
       })
 
     } else {
-      res.json({
-        ok: true,
-        user
-      })
+      res.json(user)
 
     }
 
@@ -109,7 +103,7 @@ const getUser = (req, res) => {
 
     res.json({
       ok: false,
-      msg: err
+      msg: 'Error inesperado.'
     });
 
   })
@@ -186,7 +180,7 @@ const deleteUser = (req, res) => {
 
     res.json({
       ok: false,
-      msg: err
+      msg: 'Error inesperado.'
     });
 
   })

@@ -4,11 +4,11 @@ const Comment = require('../models/Comment');
 
 
 //OBTENER TODAS LAS PELICULAS
-const getTheMovies = (req, res) => {
+const getAllMovies = (req, res) => {
 
   Movie.findAndCountAll({
 
-    attributes: ['id', 'title', 'year', 'image', 'score']
+    attributes: ['id', 'title', 'year', 'image', 'average']
 
   }).then( movies => {
 
@@ -79,7 +79,7 @@ const getTheMovie = (req, res) => {
 
   Movie.findByPk(
     req.params.id, 
-    {attributes: ['id', 'title', 'year', 'image', 'score']}   
+    {attributes: ['id', 'title', 'year', 'image', 'average']}   
 
   ).then( movie => {
 
@@ -139,7 +139,7 @@ const updateTheMovie = (req, res) => {
 
     res.json({
       ok: false,
-      msg: err.errors[0].message
+      msg: 'Error de validacion.'
     });
 
   })
@@ -256,64 +256,133 @@ const getMovieAndComments = (req, res) => {
 
 }
 
-//CALIFICAR Y COMENTAR PELICULA
-const rateAndCommentMovie = (req, res) => {
+//COMENTAR PELICULA
+const commentTheMovie = (req, res) => {
 
-  const { rate, comment } = req.body;
+  let comment  = req.body.comment;
   const movieId = req.params.id;
+
+  //si comment viene vacio, no creamos el comentario
+  if (!comment) {
+    
+    return res.json({
+      ok: false,
+      msg: 'Comentario vacio, no se creó comentario.'
+    });
+
+  }
 
   //Creamos el comentario con la llave foranea
   Comment.create({
-    rate: rate,
     comment: comment,
     movieId: movieId
 
   }).then( comment => {
-    //buscamos la pelicula en relacion al comentario
-    Movie.findByPk( movieId ).then( movie => {
 
-      const nunRate = parseInt(comment.rate);
-      const actualScore = movie.score;
-      res.json([nunRate, actualScore])
-      
-      //TODO: sacar el score y validar el rate
-
-      Movie.update({
-
-        score: 23 //pondremos el score total
-
-      }, {
-        where: {
-          id: movieId
-        }
-    
-      }).then( respuesta => {
-      // res.json(respuesta)
-
-      })
-
-
-    })
+    res.json({
+      ok: true,
+      msg: 'Comentario creado con exito.'
+    });
 
   }).catch( err => {
 
     res.json({
       ok: false,
-      msg: err.errors[0].message
+      msg: 'Error inesperado...'
     });
 
   })
 
 }
 
+//CALIFICAR PELICULA
+const rateTheMovie = (req, res) => {
+
+  let rate  = parseInt(req.body.rate);
+  const movieId = req.params.id;
+
+  //si rate "NO" es un numero entre 1 y 9 
+  if (!(/^[0-9]+$/.test(rate) && (rate < 11) && (rate != 0))) {
+
+    return res.json({
+      ok: false,
+      msg: 'No se calificó la pelicula.'
+    });
+
+  }
+
+  //Obtenemos la pelicula a calificar
+  Movie.findByPk(
+    movieId, 
+    {attributes: ['score', 'ratings', 'average']}   
+
+  ).then( movie => {
+
+    let score = movie.score;
+    let ratings = movie.ratings;
+
+    //guardamos tanto la suma como la cantidad de votos
+    let newScore = score + rate;
+    ratings++;
+    
+    //calculamos el average y lo guardamos
+    let average = newScore / ratings;
+
+    //Actualizamos el score de la pelicula
+    Movie.update({
+      score: newScore,
+      ratings: ratings,
+      average: average.toFixed(1)
+  
+    }, {
+      where: {
+        id: movieId
+      }
+  
+    }).then( result => {
+
+      if (result[0] === 1) {
+        res.json({
+          ok: true,
+          msg: 'voto realizado.'
+        })
+  
+      } else {
+        res.json({
+          ok: false,
+          msg: 'no se pudo procesar el voto.'
+        })
+  
+      }
+
+    }).catch( err => {
+
+      res.json({
+        ok: false,
+        msg: 'Error inesperado...'
+      });
+  
+    })
+
+  
+  })
+
+
+
+}
+
+
+
+
 
 
 module.exports = {
-  getTheMovies,
+  getAllMovies,
   createTheMovie,
   getTheMovie,
   updateTheMovie,
   deleteTheMovie,
   getMovieAndComments,
-  rateAndCommentMovie
+  commentTheMovie,
+  rateTheMovie
 }

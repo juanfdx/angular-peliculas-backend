@@ -6,7 +6,7 @@ const getComments = (req, res) => {
 
   Comment.findAndCountAll({
 
-    attributes: ['id', 'rate', 'comment']
+    attributes: ['id', 'comment', 'movieId']
 
   }).then( comments => {
 
@@ -26,33 +26,7 @@ const getComments = (req, res) => {
 
 }
 
-//CREAR UN COMENTARIO
-const createComment = (req, res) => {
 
-  const { rate, comment } = req.body;
-
-  //Creamos el comentario
-  Comment.create({
-    rate: rate,
-    comment: comment
-
-  }).then( result => {
-
-    res.json({
-      ok: true,
-      comment: result
-    })
-
-  }).catch( err => {
-
-    res.json({
-      ok: false,
-      msg: err.errors[0].message
-    });
-
-  })
-
-}
 
 
 
@@ -64,6 +38,5 @@ const createComment = (req, res) => {
 
 module.exports = {
   getComments,
-  createComment
 
 }

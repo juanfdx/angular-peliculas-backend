@@ -1,12 +1,13 @@
 const { Router } = require('express');
 const { 
-  getTheMovies, 
+  getAllMovies, 
   createTheMovie, 
   getTheMovie, 
   updateTheMovie, 
   deleteTheMovie, 
   getMovieAndComments, 
-  rateAndCommentMovie 
+  commentTheMovie,
+  rateTheMovie 
 
 } = require('../controllers/movie.controller');
 
@@ -15,7 +16,7 @@ const router = Router();
 
 
 //ALL MOVIES: /api/movies
-router.get('/', getTheMovies );
+router.get('/', getAllMovies );
 
 //CREATE  /api/movies/create
 router.post('/create', createTheMovie );
@@ -33,8 +34,11 @@ router.delete('/:id', deleteTheMovie);
 //READ /api/movies/id/comments
 router.get('/:id/comments', getMovieAndComments ); 
 
-//CREATE /api/movies/id/comments/create
-router.post('/:id/comments/create', rateAndCommentMovie ); 
+//CREATE MOVIE COMMENT /api/movies/id/comment
+router.post('/:id/comment', commentTheMovie ); 
+
+//RATE A MOVIE /api/movies/id/rate
+router.post('/:id/rate', rateTheMovie ); 
 
 
 
