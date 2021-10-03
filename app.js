@@ -37,7 +37,7 @@ app.listen(PORT, () => {
   console.log(`app listening at http://localhost:${PORT}`);
 
   //CONNECT TO DB
-  //Force true: DROP TABLES
+  //Force true: DROP TABLES revisada
   sequelize.sync({ force: false }).then( () => {
     console.log('DB Online.');
 

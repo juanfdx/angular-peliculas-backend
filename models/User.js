@@ -7,7 +7,7 @@ class User extends Model {}
 
 User.init({
 
-  name: {
+  firstName: {
     allowNull: false,
     type: DataTypes.STRING,
     validate: {

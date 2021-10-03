@@ -1,9 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const { generateJWT } = require('../helpers/jwt');
 
 
 //VERIFICAR CUENTA DE USUARIO
-const authUser = (req, res) => {
+const login = (req, res) => {
 
   const { email, password } = req.body;
 
@@ -11,7 +12,8 @@ const authUser = (req, res) => {
   User.findOne({
     where: {
       email: email
-    }
+    },
+
 
   }).then( user => {
 
@@ -36,13 +38,17 @@ const authUser = (req, res) => {
 
       }
 
-      //Aqui se crearia el JWT:
+      //Aqui generamos el JWT:
+      generateJWT(user.id).then( token => {
+        
+              res.json({
+                ok: true,
+                token 
+              })
 
-      //Usuario aceptado
-      res.json({
-        ok: true,
-        user
-      })
+      });
+
+
 
     }
 
@@ -66,6 +72,6 @@ const authUser = (req, res) => {
 
 
 module.exports = {
-  authUser
+  login
   
 }

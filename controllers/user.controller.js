@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const { generateJWT } = require('../helpers/jwt');
 
 
 //OBTENER TODOS LOS USUARIOS
@@ -7,7 +8,7 @@ const getUsers = (req, res) => {
 
   User.findAndCountAll({
 
-    attributes: ['id', 'name', 'lastName', 'email']
+    attributes: ['id', 'firstName', 'lastName', 'email']
 
   }).then( users => {
 
@@ -27,7 +28,7 @@ const getUsers = (req, res) => {
 //CREAR UN USUARIO
 const createUser = (req, res) => {
   
-  const { name, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   //Verificamos si el email ya existe
   User.findOne({
@@ -62,7 +63,7 @@ const createUser = (req, res) => {
 
       //Creamos el usuario
       User.create({
-        name: req.body.name,
+        firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
         password: passEncrypted,
@@ -70,10 +71,25 @@ const createUser = (req, res) => {
 
       }).then( user => {
 
-        res.json({
-          ok: true,
-          user: user
-        })
+        //Para no mostrar el password , creamos un user sin password
+        user = {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        }
+
+        //Generamos el JWT:
+        generateJWT(user.id).then( token => {
+          
+          res.json({
+            ok: true,
+            user,
+            token 
+          })
+
+        });
+
 
       }).catch( err => {
 
@@ -102,7 +118,7 @@ const getUser = (req, res) => {
 
   User.findByPk(
     req.params.id, 
-    {attributes: ['id', 'name', 'lastName', 'email']}
+    {attributes: ['id', 'firstName', 'lastName', 'email']}
 
   ).then( user => {
 
@@ -132,7 +148,7 @@ const getUser = (req, res) => {
 const updateUser = (req, res) => {
 
   User.update({
-    name: req.body.name,
+    firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email
 

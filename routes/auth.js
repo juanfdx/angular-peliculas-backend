@@ -1,12 +1,12 @@
 const { Router } = require('express');
-const { authUser } = require('../controllers/auth.controller');
+const { login } = require('../controllers/auth.controller');
 
 
 const router = Router();
 
 
 //AUTH: /api/login
-router.post('/', authUser )
+router.post('/', login )
 
 
 
