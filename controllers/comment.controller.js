@@ -6,7 +6,7 @@ const getComments = (req, res) => {
 
   Comment.findAndCountAll({
 
-    attributes: ['id', 'comment', 'movieId']
+    attributes: ['id', 'comment', 'movieId', 'userId']
 
   }).then( comments => {
 

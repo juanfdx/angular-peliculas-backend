@@ -38,11 +38,13 @@ const login = (req, res) => {
 
       }
 
+      const userId = user.id;
       //Aqui generamos el JWT:
       generateJWT(user.id).then( token => {
         
               res.json({
                 ok: true,
+                id: userId,
                 token 
               })
 

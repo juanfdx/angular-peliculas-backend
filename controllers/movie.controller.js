@@ -244,7 +244,7 @@ const getMovieAndComments = (req, res) => {
             year: movie.year,
             image: movie.image,
             score: movie.score,
-            comments: onlyComments
+            comments: comments
         }
         
         res.json(commentedMovie);
@@ -275,7 +275,8 @@ const getMovieAndComments = (req, res) => {
 const commentTheMovie = (req, res) => {
 
   let comment  = req.body.comment;
-  const movieId = req.params.id;
+  let userId  = req.body.userId; //viene del usuario logeado su id del localStorage
+  const movieId = req.params.id; //vine en la url
 
   //si comment viene vacio, no creamos el comentario
   if (!comment) {
@@ -290,7 +291,8 @@ const commentTheMovie = (req, res) => {
   //Creamos el comentario con la llave foranea
   Comment.create({
     comment: comment,
-    movieId: movieId
+    movieId: movieId,
+    userId: userId
 
   }).then( comment => {
 
