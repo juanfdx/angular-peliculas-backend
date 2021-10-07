@@ -101,6 +101,7 @@ const fileUpload = (req, res) => {
             if (result[0] === 1) {
               res.json({
                 ok: true,
+                image: fileName,
                 msg: 'Imagen actualizada.'
               })
         
@@ -158,6 +159,7 @@ const fileUpload = (req, res) => {
           if (result[0] === 1) {
             res.json({
               ok: true,
+              image: fileName,
               msg: 'Imagen actualizada.'
             })
       
@@ -209,7 +211,7 @@ const getFile = (req, res) => {
 
   const pathImage = path.join(__dirname, `../uploads/${type}/${image}`);
 
-  //Imagen por defecto si no existe una imagen o el path de imagen
+  //Si no existe una imagen o el path de imagen, muestra imagen por defecto 
   if (fs.existsSync(pathImage)) {
     res.sendFile(pathImage);
     

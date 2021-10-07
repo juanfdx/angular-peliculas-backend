@@ -7,8 +7,8 @@ const Comment = require('../models/Comment');
 const getAllMovies = (req, res) => {
 
   Movie.findAndCountAll({
-
-    attributes: ['id', 'title', 'year', 'image', 'average']
+    order: [['title', 'DESC']],
+    attributes: ['id', 'title', 'year', 'image', 'average', 'ratings']
 
   }).then( movies => {
 

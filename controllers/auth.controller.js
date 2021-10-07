@@ -38,13 +38,21 @@ const login = (req, res) => {
 
       }
 
-      const userId = user.id;
+      //Para no mostrar el password , creamos un user sin password
+      user = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        image: user.image
+      }
+
       //Aqui generamos el JWT:
       generateJWT(user.id).then( token => {
         
               res.json({
                 ok: true,
-                id: userId,
+                user: user,
                 token 
               })
 

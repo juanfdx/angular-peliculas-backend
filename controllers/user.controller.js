@@ -76,7 +76,8 @@ const createUser = (req, res) => {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
-          email: user.email
+          email: user.email,
+          image: user.image
         }
 
         //Generamos el JWT:
@@ -118,7 +119,7 @@ const getUser = (req, res) => {
 
   User.findByPk(
     req.params.id, 
-    {attributes: ['id', 'firstName', 'lastName', 'email']}
+    {attributes: ['id', 'firstName', 'lastName', 'email', 'image', 'password']}
 
   ).then( user => {
 

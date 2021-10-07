@@ -20,7 +20,7 @@ Movie.init({
         msg: 'Debe escribir un titulo.'
       },
       is: {
-        args: /^[a-zA-Z0-9 ]+$/i,
+        args: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ?,. ]+$/i,
         msg: 'EL titulo solo puede contener letras y numeros.'
       },
       len: {
