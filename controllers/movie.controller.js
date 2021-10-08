@@ -1,5 +1,6 @@
 const Movie = require('../models/Movie');
 const Comment = require('../models/Comment');
+const { sequelize } = require('../database/config');
 
 
 
@@ -97,7 +98,10 @@ const getTheMovie = (req, res) => {
       })
 
     } else {
-      res.json(movie);
+      res.json({
+        ok: true,
+        movie
+      });
 
     }
 
@@ -117,8 +121,7 @@ const updateTheMovie = (req, res) => {
 
   Movie.update({
     title: req.body.title,
-    year: req.body.year,
-    image: req.body.image
+    year: req.body.year
 
   }, {
     where: {
@@ -219,7 +222,7 @@ const getMovieAndComments = (req, res) => {
 
   Movie.findByPk(
     req.params.id, 
-    {attributes: ['id', 'title', 'year', 'image', 'score']}   
+    {attributes: ['id', 'title', 'year', 'image', 'average', 'ratings']}   
 
   ).then( movie => {
 
@@ -243,7 +246,8 @@ const getMovieAndComments = (req, res) => {
             title: movie.title,
             year: movie.year,
             image: movie.image,
-            score: movie.score,
+            average: movie.average,
+            ratings: movie.ratings,
             comments: comments
         }
         
@@ -272,7 +276,7 @@ const getMovieAndComments = (req, res) => {
 }
 
 //COMENTAR PELICULA
-const commentTheMovie = (req, res) => {
+const commentTheMovie = async (req, res) => {
 
   let comment  = req.body.comment;
   let userId  = req.body.userId; //viene del usuario logeado su id del localStorage
@@ -287,6 +291,7 @@ const commentTheMovie = (req, res) => {
     });
 
   }
+
 
   //Creamos el comentario con la llave foranea
   Comment.create({
@@ -305,10 +310,13 @@ const commentTheMovie = (req, res) => {
 
     res.json({
       ok: false,
-      msg: 'Error inesperado...'
+      msg: 'Error inesperado...',
+      err
     });
 
   })
+
+
 
 }
 

@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { validateJWT } = require('../middlewares/validate-jwt');
 const { 
   getAllMovies, 
   createTheMovie, 
