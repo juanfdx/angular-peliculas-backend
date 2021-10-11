@@ -5,7 +5,7 @@ const Comment = require('../models/Comment');
 const getComments = (req, res) => {
 
   Comment.findAndCountAll({
-
+   
     attributes: ['id', 'comment', 'movieId', 'userId']
 
   }).then( comments => {

@@ -24,10 +24,12 @@ app.use(express.urlencoded({ extended: false }));
 
 //4 ROUTES
 app.use('/api/login', require('./routes/auth'));
+app.use('/api/search', require('./routes/searchs'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/movies', require('./routes/movies'));
 app.use('/api/comments', require('./routes/comments'));
 app.use('/api/upload', require('./routes/uploads'));
+
 
 
 

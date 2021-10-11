@@ -8,7 +8,9 @@ const { sequelize } = require('../database/config');
 const getAllMovies = (req, res) => {
 
   Movie.findAndCountAll({
-    order: [['title', 'DESC']],
+    
+    limit: 12,
+    order: [['title', 'ASC']],
     attributes: ['id', 'title', 'year', 'image', 'average', 'ratings']
 
   }).then( movies => {
@@ -235,10 +237,17 @@ const getMovieAndComments = (req, res) => {
     } else {
 
       //metodo magico por la asociacion de tablas
-      movie.getComments({ attributes: ['comment', 'userId'] }).then( comments => {
+      movie.getComments({ 
+        limit: 10,
+        attributes: ['comment', 'userId'] 
+      }).then( comments => {
 
+        const countComments = comments.length;
+        console.log(countComments);
         //creamos un array solo con los comentarios
         const onlyComments = comments.map( obj => obj = obj.comment);
+        const onlyUserIds = comments.map( obj => obj = obj.userId);
+
         
         //creamos un nuevo objeto con la pelicula y sus comentarios
         const commentedMovie = {
@@ -248,6 +257,7 @@ const getMovieAndComments = (req, res) => {
             image: movie.image,
             average: movie.average,
             ratings: movie.ratings,
+            countComments: countComments,
             comments: comments
         }
         
