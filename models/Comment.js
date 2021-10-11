@@ -9,7 +9,12 @@ Comment.init({
 
   comment: {
     type: DataTypes.TEXT,
-  }
+  },
+  
+  userName: {
+    type: DataTypes.STRING,
+
+  },
 
 
 }, { sequelize , modelName: 'comment'})

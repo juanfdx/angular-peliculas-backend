@@ -1,5 +1,7 @@
 const Movie = require('../models/Movie');
 const Comment = require('../models/Comment');
+const User = require('../models/User');
+
 const { sequelize } = require('../database/config');
 
 
@@ -239,15 +241,10 @@ const getMovieAndComments = (req, res) => {
       //metodo magico por la asociacion de tablas
       movie.getComments({ 
         limit: 10,
-        attributes: ['comment', 'userId'] 
+        attributes: ['comment', 'userName', 'createdAt'] 
       }).then( comments => {
 
-        const countComments = comments.length;
-        console.log(countComments);
-        //creamos un array solo con los comentarios
-        const onlyComments = comments.map( obj => obj = obj.comment);
-        const onlyUserIds = comments.map( obj => obj = obj.userId);
-
+        const countComments = comments.length;     
         
         //creamos un nuevo objeto con la pelicula y sus comentarios
         const commentedMovie = {
@@ -286,11 +283,12 @@ const getMovieAndComments = (req, res) => {
 }
 
 //COMENTAR PELICULA
-const commentTheMovie = async (req, res) => {
+const commentTheMovie = (req, res) => {
 
   let comment  = req.body.comment;
-  let userId  = req.body.userId; //viene del usuario logeado su id del localStorage
+  let userName  = req.body.userName; //viene del usuario logeado
   const movieId = req.params.id; //vine en la url
+  
 
   //si comment viene vacio, no creamos el comentario
   if (!comment) {
@@ -299,15 +297,14 @@ const commentTheMovie = async (req, res) => {
       ok: false,
       msg: 'Comentario vacio, no se creó comentario.'
     });
-
   }
 
 
-  //Creamos el comentario con la llave foranea
+  //Creamos el comentario y agregamos al usuario
   Comment.create({
     comment: comment,
     movieId: movieId,
-    userId: userId
+    userName: userName
 
   }).then( comment => {
 
@@ -326,9 +323,8 @@ const commentTheMovie = async (req, res) => {
 
   })
 
-
-
 }
+
 
 //CALIFICAR PELICULA
 const rateTheMovie = (req, res) => {
