@@ -1,17 +1,22 @@
 const Movie = require('../models/Movie');
 const Comment = require('../models/Comment');
-const User = require('../models/User');
 
-const { sequelize } = require('../database/config');
+
 
 
 
 //OBTENER TODAS LAS PELICULAS
 const getAllMovies = (req, res) => {
 
+  //paginacion, si no viene "desde" sera 0 y "limite" sera 8
+  const desde = parseInt(req.query.desde) || 0;
+  const limite = parseInt(req.query.limite) || 8;
+
+
   Movie.findAndCountAll({
     
-    limit: 12,
+    limit: limite,
+    offset: desde,
     order: [['title', 'ASC']],
     attributes: ['id', 'title', 'year', 'image', 'average', 'ratings']
 
@@ -35,10 +40,20 @@ const createTheMovie = (req, res) => {
 
   const { title, year } = req.body;
 
+  //hacemos que a cada palabra del titulo su primera letra sea mayuscula
+  const arr = title.split(" "); 
+
+  const arr2 = arr.map( item => {
+    return item.charAt(0).toUpperCase() + item.slice(1);
+  })
+  
+  const capTitle = arr2.join(' ');
+
+
   //Verificamos si la pelicula ya existe
   Movie.findOne({
     where: {
-      title: title
+      title: capTitle
     }
 
   }).then( movie => {
@@ -53,7 +68,7 @@ const createTheMovie = (req, res) => {
     } else {
 
       Movie.create({
-        title: title,
+        title: capTitle,
         year: year,
         image:'no-image.jpg'
       
@@ -123,9 +138,22 @@ const getTheMovie = (req, res) => {
 //EDITAR UNA PELICULA
 const updateTheMovie = (req, res) => {
 
+  const { title, year } = req.body;
+
+  //hacemos que a cada palabra del titulo su primera letra sea mayuscula
+  const arr = title.split(" "); 
+
+  const arr2 = arr.map( item => {
+    return item.charAt(0).toUpperCase() + item.slice(1);
+  })
+  
+  const capTitle = arr2.join(' ');
+
+
+
   Movie.update({
-    title: req.body.title,
-    year: req.body.year
+    title: capTitle,
+    year: year
 
   }, {
     where: {
@@ -240,7 +268,7 @@ const getMovieAndComments = (req, res) => {
 
       //metodo magico por la asociacion de tablas
       movie.getComments({ 
-        limit: 10,
+        limit: 5,
         attributes: ['comment', 'userName', 'createdAt'] 
       }).then( comments => {
 
