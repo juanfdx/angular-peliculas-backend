@@ -5,7 +5,7 @@ const Comment = require('../models/Comment');
 
 
 
-//OBTENER TODAS LAS PELICULAS
+//OBTENER TODAS LAS PELICULAS CON PAGINACION
 const getAllMovies = (req, res) => {
 
   //paginacion, si no viene "desde" sera 0 y "limite" sera 8
@@ -191,7 +191,7 @@ const updateTheMovie = (req, res) => {
 //BORRAR UNA PELICULA
 const deleteTheMovie = (req, res) => {
 
-  //borrar comentarios de la pelicula
+  //borrar primero los comentarios de la pelicula
   Comment.destroy({
 
     where: {
@@ -249,8 +249,12 @@ const deleteTheMovie = (req, res) => {
 
 }
 
-//OBTENER UNA PELICULA CON SUS COMENTARIOS
+//OBTENER UNA PELICULA CON SUS COMENTARIOS Y PAGINACION COMENTARIOS
 const getMovieAndComments = (req, res) => {
+
+    //paginacion, si no viene "desde" sera 0
+    const desde = parseInt(req.query.desde) || 0;
+    //no usaremos limite pq la consulta se hace desde un metodo magico y no trae count
 
   Movie.findByPk(
     req.params.id, 
@@ -267,8 +271,8 @@ const getMovieAndComments = (req, res) => {
     } else {
 
       //metodo magico por la asociacion de tablas
-      movie.getComments({ 
-        limit: 5,
+      movie.getComments({      
+        offset: desde,
         attributes: ['comment', 'userName', 'createdAt'] 
       }).then( comments => {
 
