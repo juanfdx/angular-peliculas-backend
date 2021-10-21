@@ -1,13 +1,17 @@
 const { Router } = require('express');
-const { getUsers, createUser, getUser, updateUser, deleteUser } = require('../controllers/user.controller');
 const { validateJWT } = require('../middlewares/validate-jwt');
+const { getUsers, 
+        createUser, 
+        getUser, 
+        updateUser, 
+        deleteUser } = require('../controllers/user.controller');
 
 
 const router = Router();
 
 
 //ALL USERS: /api/users
-router.get('/', validateJWT ,getUsers );
+router.get('/', getUsers );
 
 //CREATE  /api/users/create
 router.post('/create', createUser );
@@ -19,7 +23,7 @@ router.get('/:id', getUser );
 router.put('/:id/edit', validateJWT ,updateUser ); 
 
 //DELETE /api/users/id
-router.delete('/:id', validateJWT ,deleteUser);
+router.delete('/:id' , deleteUser);
 
 
 

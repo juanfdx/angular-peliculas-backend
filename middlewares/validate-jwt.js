@@ -30,10 +30,7 @@ const validateJWT = (req, res, next) => {
       })
   }
 
-  
 }
-
-
 
 
 

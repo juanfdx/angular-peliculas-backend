@@ -2,9 +2,6 @@ const Movie = require('../models/Movie');
 const Comment = require('../models/Comment');
 
 
-
-
-
 //OBTENER TODAS LAS PELICULAS CON PAGINACION
 const getAllMovies = (req, res) => {
 
@@ -35,6 +32,7 @@ const getAllMovies = (req, res) => {
 
 }
 
+
 //CREAR UNA PELICULA
 const createTheMovie = (req, res) => {
 
@@ -48,7 +46,6 @@ const createTheMovie = (req, res) => {
   })
   
   const capTitle = arr2.join(' ');
-
 
   //Verificamos si la pelicula ya existe
   Movie.findOne({
@@ -101,6 +98,7 @@ const createTheMovie = (req, res) => {
 
 }
 
+
 //OBTENER UNA PELICULA
 const getTheMovie = (req, res) => {
 
@@ -135,6 +133,7 @@ const getTheMovie = (req, res) => {
 
 }
 
+
 //EDITAR UNA PELICULA
 const updateTheMovie = (req, res) => {
 
@@ -148,8 +147,6 @@ const updateTheMovie = (req, res) => {
   })
   
   const capTitle = arr2.join(' ');
-
-
 
   Movie.update({
     title: capTitle,
@@ -176,7 +173,6 @@ const updateTheMovie = (req, res) => {
 
     }
 
-
   }).catch( err => {
 
     res.json({
@@ -187,6 +183,7 @@ const updateTheMovie = (req, res) => {
   })
 
 }
+
 
 //BORRAR UNA PELICULA
 const deleteTheMovie = (req, res) => {
@@ -233,7 +230,6 @@ const deleteTheMovie = (req, res) => {
         });
 
       })
-
       
     } else {
 
@@ -245,7 +241,6 @@ const deleteTheMovie = (req, res) => {
     }
 
   });
-
 
 }
 
@@ -300,7 +295,6 @@ const getMovieAndComments = (req, res) => {
         });
     
       })
-
     }
 
   }).catch( err => {
@@ -311,8 +305,8 @@ const getMovieAndComments = (req, res) => {
     });
 
   })
-
 }
+
 
 //COMENTAR PELICULA
 const commentTheMovie = (req, res) => {
@@ -330,7 +324,6 @@ const commentTheMovie = (req, res) => {
       msg: 'Comentario vacio, no se creó comentario.'
     });
   }
-
 
   //Creamos el comentario y agregamos al usuario
   Comment.create({
@@ -427,7 +420,6 @@ const rateTheMovie = (req, res) => {
   
     })
 
-  
   }).catch( err => {
 
     res.json({
@@ -437,10 +429,7 @@ const rateTheMovie = (req, res) => {
 
   })
 
-
-
 }
-
 
 
 

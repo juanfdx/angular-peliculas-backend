@@ -91,7 +91,6 @@ const createUser = (req, res) => {
 
         });
 
-
       }).catch( err => {
 
         res.json({
@@ -113,6 +112,7 @@ const createUser = (req, res) => {
   })
 
 }
+
 
 //OBTENER UN USUARIO
 const getUser = (req, res) => {
@@ -145,6 +145,7 @@ const getUser = (req, res) => {
   
 }
 
+
 //EDITAR UN USUARIO
 const updateUser = (req, res) => {
 
@@ -174,7 +175,6 @@ const updateUser = (req, res) => {
 
     }
 
-
   }).catch( err => {
 
     res.json({
@@ -185,6 +185,7 @@ const updateUser = (req, res) => {
   })
 
 }
+
 
 //BORRAR UN USUARIO
 const deleteUser = (req, res) => {

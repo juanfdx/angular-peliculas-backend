@@ -73,7 +73,6 @@ const fileUpload = (req, res) => {
       });
     }
 
-
     //ACA ACTUALIZAMOS LA BASE DE DATOS
     switch (type) {
       case 'movies':
@@ -180,7 +179,6 @@ const fileUpload = (req, res) => {
       
         })
  
-
       }).catch( err => {
 
         res.json({
@@ -222,6 +220,8 @@ const getFile = (req, res) => {
   }
 
 }
+
+
 
 
 module.exports = {

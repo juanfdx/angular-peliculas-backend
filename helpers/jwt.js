@@ -23,10 +23,7 @@ const generateJWT = (id) => {
   
     });
 
-
   });
-  
-
 
 }
 

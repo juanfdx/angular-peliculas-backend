@@ -26,20 +26,20 @@ router.post('/create', createTheMovie );
 router.get('/:id', getTheMovie ); 
 
 //UPDATE /api/movies/id/edit
-router.put('/:id/edit', updateTheMovie ); 
+router.put('/:id/edit', validateJWT, updateTheMovie ); 
 
 //DELETE /api/movies/id
-router.delete('/:id', deleteTheMovie);
+router.delete('/:id', validateJWT, deleteTheMovie);
 
 //ASSOCIATIONS
 //READ /api/movies/id/comments
 router.get('/:id/comments', getMovieAndComments ); 
 
 //CREATE MOVIE COMMENT /api/movies/id/comment
-router.post('/:id/comment', commentTheMovie ); 
+router.post('/:id/comment', validateJWT, commentTheMovie ); 
 
 //RATE A MOVIE /api/movies/id/rate
-router.post('/:id/rate', rateTheMovie ); 
+router.post('/:id/rate', validateJWT, rateTheMovie ); 
 
 
 

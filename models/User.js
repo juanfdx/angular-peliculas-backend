@@ -84,8 +84,7 @@ User.init({
   image: {
     type: DataTypes.STRING,
     set(value) {
-      value ? this.setDataValue('image', value) : this.setDataValue('image', 'no-image.jpg');
-      
+      value ? this.setDataValue('image', value) : this.setDataValue('image', 'no-image.jpg');    
     }
   },
 

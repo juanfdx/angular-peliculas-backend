@@ -32,8 +32,6 @@ const { Op } = require("sequelize");
     movie
   })
 
-
-
  }
 
 

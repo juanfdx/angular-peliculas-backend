@@ -20,5 +20,4 @@ router.get('/:type/:image', getFile );
 
 
 
-
 module.exports = router;

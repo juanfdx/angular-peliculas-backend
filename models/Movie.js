@@ -72,7 +72,6 @@ Movie.init({
   },
 
 
-
 }, { sequelize , modelName: 'movie'})
 
 

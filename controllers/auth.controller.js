@@ -18,7 +18,6 @@ const login = (req, res) => {
   }).then( user => {
 
     if (!user) {
-
       return res.status(404).json({
         ok: false,
         msg: 'Email no encontrado.'
@@ -30,12 +29,10 @@ const login = (req, res) => {
       const validPassword = bcrypt.compareSync(password, user.password); 
       
       if (!validPassword) {
-
         return res.status(400).json({
           ok: false,
           msg: 'Contraseña no valida.'
         });
-
       }
 
       //Para no mostrar el password , creamos un user sin password
@@ -55,11 +52,7 @@ const login = (req, res) => {
                 user: user,
                 token 
               })
-
       });
-
-
-
     }
 
   }).catch( err => {
@@ -70,9 +63,6 @@ const login = (req, res) => {
     });
 
   })
-
-
-
 
 
 }
