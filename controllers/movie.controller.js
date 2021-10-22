@@ -256,7 +256,7 @@ const getMovieAndComments = (req, res) => {
     {attributes: ['id', 'title', 'year', 'image', 'average', 'ratings']}   
 
   ).then( movie => {
-
+    
     if (!movie) {
       res.json({
         ok: false,
@@ -301,7 +301,7 @@ const getMovieAndComments = (req, res) => {
 
     res.json({
       ok: false,
-      msg: 'Error inesperado...'
+      msg: 'Error inesperado2...'
     });
 
   })

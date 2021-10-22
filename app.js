@@ -3,11 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./database/config');
 const associations = require('./database/associations');
-
+const path = require('path');
 
 
 //1 EXPRESS SERVER
 const app = express();
+
+// DIRECTORIO publico (para producción con Angular)
+app.use(express.static('public'));
 
 //5 CORS
 app.use(cors());
@@ -31,7 +34,10 @@ app.use('/api/comments', require('./routes/comments'));
 app.use('/api/upload', require('./routes/uploads'));
 
 
-
+// MANEJAR DEMAS RUTAS (para producción con Angular)
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public/index.html'));
+});
 
 
 //3 START SERVER
